@@ -1,0 +1,45 @@
+{% extends "shop_subscribe/base.html" %}
+{# Used as a plugin template or include in other templates #}
+{% load i18n sekizai_tags subscribe_tags %}
+
+
+{% block content %}{% spaceless %}
+
+{% if not form %}
+{% subscribe_form %}
+{% endif %}
+
+{% addtoblock "js" %}<script type="text/javascript">
+angular.module('django.shop.subscribe', ['djng.forms']).controller('SubscribeCtrl', function($scope, $http, $window, djangoForm) {
+    $scope.submit = function() {
+
+        $scope.{{ form.form_name }}.success = false;
+        $http.post("{{ form.get_url }}", $scope.{{ form.scope_prefix }})
+            .success(function(out_data) {
+                var action = "{{ action }}"
+                $scope.{{ form.form_name }}.success = true;
+                if (action === 'RELOAD_PAGE') {
+                    $window.location.reload();
+                } else if (action === 'DO_NOTHING') {
+                } else {
+                    // cmspage
+                    $window.location.assign(action);
+                }
+            })
+            .error(function(out_data) {
+                djangoForm.setErrors($scope.{{ form.form_name }}, out_data.errors)
+            });
+    };
+});
+</script>{% endaddtoblock %}
+{% addtoblock "ng-requires" %}django.shop.subscribe{% endaddtoblock %}
+
+
+<form ng-controller="SubscribeCtrl" name="{{ form.form_name }}" novalidate>
+    {{ form.as_div }}
+    <button type="button" ng-disabled="{{ form.form_name }}.$invalid" ng-click="submit()" class="btn btn-primary btn-round">
+        <i class="fa fa-send-o" aria-hidden="true"></i>&nbsp;{% trans "Subscribe" %}
+    </button>
+</form>
+
+{% endspaceless %}{% endblock %}

@@ -1,0 +1,41 @@
+{% extends "shop_subscribe/email/basic-email.html" %}
+{% load i18n %}{% autoescape off %}
+
+{% block title %}{% blocktrans %}Welcome to {{ site_name }}{% endblocktrans %}{% endblock %}
+
+{% block main-top %}
+<p>
+{% blocktrans %}
+    You're receiving this email because your email address ({{ email }}) was used to subscribe to our mailing lists.
+    If this was you, please click the button below to confirm and manage your subscription:
+{% endblocktrans %}
+</p>
+{% endblock %}
+
+{% block button-link %}{{ confirm_url }}{% endblock %}
+{% block button-text %}{% trans "Confirm Subscription" %}{% endblock %}
+
+{% block main-bottom %}
+<p>
+{% blocktrans %}
+    If this was not you, please delete this email and we are sorry for the inconvenience.
+    Rest assured that your email address will be removed from our database shortly unless you have previously confirmed this email address.
+    For your reference, we noted the following information at the time:
+{% endblocktrans %}
+</p>
+<p>
+    {# Note the <br> at the end of each line! #}
+    {% if language %}{% trans "The language in use was" %}: '{{ language }}'<br>{% endif %}
+    {% if ip %}{% trans "The request was made from IP address" %}: {{ ip }}<br>{% endif %}
+    {% if user_agent %}{% trans "The browser information was" %}:<br>'{{ user_agent }}'<br>{% endif %}
+</p>
+{% endblock %}
+
+{% block signoff %}
+<p>
+    {% trans "Thanks for using our site!" %}<br>
+    {% blocktrans %}The {{ site_name }} team{% endblocktrans %}
+</p>
+{% endblock %}
+
+{% endautoescape %}

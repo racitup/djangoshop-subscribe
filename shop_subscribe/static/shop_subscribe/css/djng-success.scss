@@ -1,0 +1,12 @@
+@import "shop/css/django-angular.scss";
+
+ul.djng-form-errors {
+    li.valid {
+        @extend .invalid;
+        color: #00c900;
+        border-color: #00c900;
+        &:before {
+            content: "\2714";
+        }
+    }
+}

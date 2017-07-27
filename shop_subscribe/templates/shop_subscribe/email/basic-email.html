@@ -1,0 +1,115 @@
+{% extends "Email-Framework-master/boilerplate.html" %}
+
+{% block body %}
+<!-- Start Body -->
+<table width="640" cellpadding="0" cellspacing="0" align="center" border="0" class="wrapper" bgcolor="#ffffff">
+    <tbody>
+        <tr>
+            <td height="20" style="line-height:20px; font-size:20px;"> </td><!-- Spacer -->
+        </tr>
+        <tr>
+            <td align="center" bgcolor="#ffffff">
+                {% block main-title-cell %}
+                <!-- Start Container -->
+                <table width="600" cellpadding="0" cellspacing="0" align="center" border="0" class="container"><tbody>
+                    <tr>
+                        <td align="center" class="mobile" style="font-family:arial, sans-serif; font-size:20px; line-height:26px; font-weight:bold;">
+                            {% block title %}Title{% endblock %}
+                        </td>
+                    </tr>
+                    <tr>
+                        <td height="20" style="line-height:20px; font-size:20px;"> </td><!-- Spacer -->
+                    </tr>
+                    <tr>
+                        <td align="center" style="font-family:Verdana, Arial, sans serif; font-size: 14px; color: #4d4d4d; line-height:18px;">
+                            {% block main-top %}<p>Main Top</p>{% endblock %}
+                        </td>
+                    </tr>
+                    <tr>
+                        <td height="20" style="line-height:20px; font-size:20px;"> </td><!-- Spacer -->
+                    </tr>
+                    <tr>
+                        <td align="center" class="center">
+                            <!-- Start Button -->
+                            <table cellpadding="0" cellspacing="0" border="0" width="200" height="36" bgcolor="#000000" style="border-radius:20px;">
+                              <tr>
+                                <td valign="middle" height="36" style="font-family: Arial, sans-serif; font-size:14px; font-weight:bold;" align="center">
+                                    <a href="{% block button-link %}{% endblock %}" target="_blank" style="font-family: Arial, sans-serif; color:#ffffff; display: inline-block; text-decoration: none; line-height:36px; width:200px; font-weight:bold;">{% block button-text %}Button{% endblock %} &gt;</a>
+                                </td>
+                              </tr>
+                            </table>
+                            <!-- End Button -->
+                        </td>
+                    </tr>
+                </tbody></table>
+                <!-- End Container -->
+                {% endblock %}
+                {% block main-bottom-cell %}
+                <!-- Start Container -->
+                <table width="600" cellpadding="0" cellspacing="0" align="center" border="0" class="container"><tbody>
+                    {% block main-bottom-remove %}
+                    <tr>
+                        <td height="20" style="line-height:20px; font-size:20px;"> </td><!-- Spacer -->
+                    </tr>
+                    <tr>
+                        <td align="center" style="font-family:Verdana, Arial, sans serif; font-size: 14px; color: #4d4d4d; line-height:18px;">
+                            {% block main-bottom %}<p>Main Bottom</p>{% endblock %}
+                        </td>
+                    </tr>
+                    {% endblock %}
+                    <tr>
+                        <td height="20" style="line-height:20px; font-size:20px;">
+                            <hr style="display:block; height:1px; width:75px; border:0; border-top: 1px solid #ccc; margin:0; padding:0;">
+                        </td><!-- Spacer with feint horizontal rule -->
+                    </tr>
+                    <tr>
+                        <td align="left" style="font-family:Verdana, Arial, sans serif; font-size: 14px; color: #4d4d4d; line-height:18px;">
+                            {% block signoff %}<p>Signoff</p>{% endblock %}
+                        </td>
+                    </tr>
+                </tbody></table>
+                <!-- End Container -->
+                {% endblock %}
+            </td>
+        </tr>
+        <tr>
+            <td height="20" style="line-height:20px; font-size:20px;"> </td><!-- Spacer -->
+        </tr>
+    </tbody>
+</table>
+<!-- End Body -->
+
+{% block footer %}
+<!-- Start Footer -->
+<table width="640" cellpadding="0" cellspacing="0" border="0" class="wrapper" bgcolor="#222222">
+    <tbody><tr>
+        <td height="10" style="font-size:10px; line-height:10px;"> </td><!-- Spacer -->
+    </tr>
+    <tr>
+        <td align="center">
+
+            {% block footer-cell %}
+            <!-- Start Container  -->
+            <table width="600" cellpadding="0" cellspacing="0" border="0" class="container">
+                <tbody><tr>
+                    <td width="300" class="mobile" style="font-family:arial, sans-serif; font-size:12px; line-height:18px; color:#FFFFFF;">
+                        {% block footer-left-text %}&copy; Your copyright here{% endblock %}
+                    </td>
+                    <td width="300" class="mobile" style="font-family:arial, sans-serif; font-size:12px; line-height:18px; color:#FFFFFF;" align="right">
+                       <a href="{% block footer-right-link %}javascript:void(0);{% endblock %}" target="_blank" alias="" style="font-size:12px; line-height:18px; color:#FFFFFF; text-decoration:underline;">{% block footer-right-text %}Home{% endblock %}</a>
+                    </td>
+                </tr>
+            </tbody></table>
+            <!-- Start Container  -->
+            {% endblock %}
+
+        </td>
+    </tr>
+    <tr>
+        <td height="10" style="font-size:10px; line-height:10px;"> </td><!-- Spacer -->
+    </tr></tbody>
+</table>
+<!-- End Footer -->
+{% endblock %}
+
+{% endblock %}
