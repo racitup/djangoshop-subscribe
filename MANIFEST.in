@@ -1,0 +1,8 @@
+include LICENSE.txt
+include README.rst
+include setup.py
+
+recursive-include shop_subscribe/static *
+recursive-include shop_subscribe/templates *
+recursive-exclude * __pycache__
+recursive-exclude * *.psd
