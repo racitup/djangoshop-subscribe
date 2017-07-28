@@ -70,6 +70,43 @@ you do not need the CMS plugin.
         'shop_subscribe.cmsplugin_cascade',
     ]
 
+A logging configuration similar to below is also recommended to catch a few warnings
+given off by this module. This configuration will also catch messages given off by
+other modules for which there is no specific configuration. If you want to add a
+specific configuration for this module, use the module name ``shop_subscribe``.
+
+.. code:: python
+
+    LOGGING = {
+        'version': 1,
+        # Use False to see deprecation warnings, etc
+        'disable_existing_loggers': False,
+        'filters': {
+             'require_debug_false': {
+                 '()': 'django.utils.log.RequireDebugFalse',
+             }
+        },
+        'formatters': {
+            'simple': {
+                'format': '[%(asctime)s %(name)s] %(levelname)s: %(message)s'
+            },
+        },
+        'handlers': {
+            'console': {
+                'level': 'INFO',
+                'class': 'logging.StreamHandler',
+                'formatter': 'simple',
+            },
+        },
+        'loggers': {
+            '': {
+                'handlers': ['console'],
+                # default is WARNING
+                'level': 'INFO',
+            },
+        },
+    }
+
 Customer Model
 ~~~~~~~~~~~~~~
 
