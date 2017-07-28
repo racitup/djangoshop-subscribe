@@ -207,3 +207,5 @@ Minimal Checkout Customer Form
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 Look for the *Customer Form (minimal)* CMS plugin.
+*Note* that any fields added to the Customer Model must be configured to allow blank form entries
+(``blank=True`` and/or specify a default value) for correct operation.
