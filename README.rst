@@ -246,3 +246,22 @@ Minimal Checkout Customer Form
 Look for the *Customer Form (minimal)* CMS plugin.
 *Note* that any fields added to the Customer Model must be configured to allow blank form entries
 (``blank=True`` and/or specify a default value) for correct operation.
+
+Admin
+~~~~~
+
+To add subscriptions management to the customer admin, you must create your own customer admin
+module derived from the shop base module, like so:
+
+.. code:: python
+
+    from django.contrib import admin
+    from shop.admin.customer import CustomerProxy, CustomerAdminBase
+    from shop_subscribe.admin import SubscriptionsInlineAdmin
+
+
+    # Because Customer is attached to the user model, use this proxy model:
+    @admin.register(CustomerProxy)
+    class CustomerAdmin(CustomerAdminBase):
+        """Customised customeradmin class"""
+        inlines = (SubscriptionsInlineAdmin,)

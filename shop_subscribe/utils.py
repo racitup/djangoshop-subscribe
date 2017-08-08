@@ -86,6 +86,11 @@ def html_to_text(html):
     return doc
 
 
+def get_subscription_fields():
+    """Returns the list of customer subscription fields"""
+    return [item for item in dir(CustomerModel) if item.startswith('subscription_')]
+
+
 def get_customer_from_emailsignature(request):
     """
     DRF or WSGI requests

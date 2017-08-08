@@ -8,7 +8,7 @@ from djng.forms.angular_base import SafeTuple
 from djng.styling.bootstrap3.forms import Bootstrap3ModelForm
 from shop.forms.checkout import CustomerForm
 from shop.models.customer import CustomerModel
-from .utils import send_confirmation_email, logger, unsign, get_customer_from_emailsignature
+from .utils import send_confirmation_email, logger, unsign, get_customer_from_emailsignature, get_subscription_fields
 
 
 class CustomerFormMinimal(CustomerForm):
@@ -137,7 +137,7 @@ class NgLoadSuccessMessageMixin(object):
 def ConfirmForm_factory():
     """Dynamically generate fields list"""
 
-    subscription_fields = [item for item in dir(CustomerModel) if item.startswith('subscription_')]
+    subscription_fields = get_subscription_fields()
 
     class ConfirmForm(NgLoadSuccessMessageMixin, NgSuccessMessageMixin, NgModelFormMixin, NgFormValidationMixin, Bootstrap3ModelForm):
         "email and sig are obtained from a url and embedded in the form data hidden for posts"
