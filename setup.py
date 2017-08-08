@@ -21,18 +21,15 @@ CLASSIFIERS = [
     'Topic :: Internet :: WWW/HTTP :: Dynamic Content',
 ]
 
-VERSION = shop_subscribe.__version__
-
 setup(
     author="Richard Case",
     author_email="rich@racitup.com",
     name="djangoshop-subscribe",
     packages=find_packages(exclude=['doc']),
-    version=VERSION,
+    version=shop_subscribe.__version__,
     description="An email subscription plugin for Django-SHOP",
     long_description=README,
     url='https://github.com/racitup/djangoshop-subscribe',
-    download_url = 'https://github.com/racitup/djangoshop-subscribe/archive/' + VERSION + '.tar.gz',
     license='BSD License',
     platforms=['OS Independent'],
     classifiers=CLASSIFIERS,
