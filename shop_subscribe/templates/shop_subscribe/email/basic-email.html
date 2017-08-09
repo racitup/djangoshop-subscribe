@@ -47,16 +47,17 @@
                 {% block main-bottom-cell %}
                 <!-- Start Container -->
                 <table width="600" cellpadding="0" cellspacing="0" align="center" border="0" class="container"><tbody>
-                    {% block main-bottom-remove %}
                     <tr>
                         <td height="20" style="line-height:20px; font-size:20px;"> </td><!-- Spacer -->
                     </tr>
+                    {% block main-bottom-remove %}
                     <tr>
                         <td align="center" style="font-family:Verdana, Arial, sans serif; font-size: 14px; color: #4d4d4d; line-height:18px;">
                             {% block main-bottom %}<p>Main Bottom</p>{% endblock %}
                         </td>
                     </tr>
                     {% endblock %}
+                    {% block signoff-remove %}
                     <tr>
                         <td height="20" style="line-height:20px; font-size:20px;">
                             <hr style="display:block; height:1px; width:75px; border:0; border-top: 1px solid #ccc; margin:0; padding:0;">
@@ -67,6 +68,7 @@
                             {% block signoff %}<p>Signoff</p>{% endblock %}
                         </td>
                     </tr>
+                    {% endblock %}
                 </tbody></table>
                 <!-- End Container -->
                 {% endblock %}
