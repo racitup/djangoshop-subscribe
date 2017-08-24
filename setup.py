@@ -14,8 +14,7 @@ CLASSIFIERS = [
     'Intended Audience :: Developers',
     'License :: OSI Approved :: BSD License',
     'Operating System :: OS Independent',
-#    'Programming Language :: Python :: 2.7',
-#    'Programming Language :: Python :: 3.4',
+    'Programming Language :: Python :: 2.7',
     'Programming Language :: Python :: 3.5',
     'Topic :: Software Development :: Libraries :: Application Frameworks',
     'Topic :: Internet :: WWW/HTTP :: Dynamic Content',
@@ -38,6 +37,6 @@ setup(
     zip_safe=False,
     install_requires=[
         'Django>=1.10.0,<1.11',
-        'django-shop>=0.10.2,<0.11',
+        'django-shop>=0.11',
     ],
 )
