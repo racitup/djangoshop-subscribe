@@ -16,7 +16,7 @@ from cms.templatetags.cms_tags import _get_page_by_untyped_arg
 from rest_framework.request import Request as DRFRequest
 from bs4 import BeautifulSoup, NavigableString, Tag
 from ipware.ip import get_real_ip, get_ip
-from shop import app_settings
+from shop.conf import app_settings
 from shop.models.customer import CustomerModel
 
 

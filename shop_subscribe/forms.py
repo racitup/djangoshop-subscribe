@@ -1,9 +1,9 @@
 # -*- coding: utf-8 -*-
-from django.forms import fields, widgets, ValidationError
+from django.forms import widgets, ValidationError
 from django.urls import reverse
 from django.core.signing import BadSignature
 from django.utils.translation import ugettext_lazy as _
-from djng.forms import NgModelFormMixin, NgFormValidationMixin
+from djng.forms import NgModelFormMixin, NgFormValidationMixin, fields
 from djng.forms.angular_base import SafeTuple
 from djng.styling.bootstrap3.forms import Bootstrap3ModelForm
 from shop.forms.checkout import CustomerForm
@@ -22,23 +22,23 @@ class CustomerFormMinimal(CustomerForm):
 
 def debug_instance(instance):
     """Helper debug function"""
-    print("Registration form instance: '{}', ".format(instance), end='')
+    msg1 = "Registration form instance: '{}', ".format(instance)
+    msg2 = 'None'
     if instance:
         try:
             if instance.is_visitor():
-                print('Visiting Customer')
+                msg2 = 'Visiting Customer'
             elif instance.is_authenticated():
-                print('Registered Customer')
+                msg2 = 'Registered Customer'
             elif instance.is_guest():
-                print('Guest Customer')
+                msg2 = 'Guest Customer'
             elif instance.is_anonymous():
-                print('Unrecognized Customer')
+                msg2 = 'Unrecognized Customer'
             else:
-                print('Unknown Concrete Customer')
+                msg2 = 'Unknown Concrete Customer'
         except AttributeError:
-            print('User')
-    else:
-        print('None')
+            msg2 = 'User'
+    logger.debug(msg1 + msg2)
 
 
 class NgSuccessMessageMixin(object):

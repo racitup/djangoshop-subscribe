@@ -1,14 +1,15 @@
 # -*- coding: utf-8 -*-
+from __future__ import absolute_import
 from django.utils.translation import ugettext_lazy as _
 from django.utils.html import format_html
 from django.template.loader import select_template
+from django.utils.module_loading import import_string
 from django.forms.fields import ChoiceField
 from cms.plugin_pool import plugin_pool
 from cmsplugin_cascade.link.forms import LinkForm
-from shop import app_settings
+from shop.conf import app_settings
 from shop.cascade.plugin_base import DialogFormPluginBase, ShopLinkPluginBase, ShopLinkElementMixin
 from shop.cascade.checkout import CustomerFormPluginBase
-from .forms import SubscribeForm, ConfirmForm_factory
 
 
 class CustomerFormMinimalPlugin(CustomerFormPluginBase):
@@ -25,8 +26,8 @@ DialogFormPluginBase.register_plugin(CustomerFormMinimalPlugin)
 
 
 SUBSCRIPTION_FORM_TYPES = (
-    ('subscribe', _("Subscribe Form"), SubscribeForm),
-    ('confirm', _("Email Confirmation Form"), ConfirmForm_factory()),
+    ('subscribe', _("Subscribe Form"), 'shop_subscribe.forms.SubscribeForm'),
+    ('confirm', _("Email Confirmation Form"), 'shop_subscribe.forms.ConfirmForm_factory'),
 )
 
 class SubscriptionsAdminForm(LinkForm):
@@ -71,8 +72,14 @@ class SubscriptionsFormPlugin(ShopLinkPluginBase):
         """
         Return the context to render the template
         """
+        import types
         form_type = instance.glossary.get('form_type')
-        form_class = dict( ((ft[0], ft[2]) for ft in SUBSCRIPTION_FORM_TYPES) ).get(form_type, None)
+        form_class_str = dict( ((ft[0], ft[2]) for ft in SUBSCRIPTION_FORM_TYPES) ).get(form_type, None)
+        form_gen = import_string(form_class_str)
+        if isinstance(form_gen, types.FunctionType):
+            form_class = form_gen()
+        else:
+            form_class = form_gen
         context['form'] = form_class(request=context['request'])
         context['action'] = self.get_link(instance)
         return super(SubscriptionsFormPlugin, self).render(context, instance, placeholder)

@@ -31,6 +31,7 @@ This plugin currently has the following features:
 -  Overridable forms and email templates including `Email
    Framework <https://github.com/g13nn/Email-Framework>`__ compatibility
    with the majority of email clients.
+-  Rate limit for subscriptions from each ip address.
 
 TODO
 ~~~~
@@ -40,6 +41,7 @@ implement any of the below:
 
 -  Admin interface to allow emails to be authored and sent out to
    subscribed users.
+-  Integrate subscriptions with post_office templates.
 -  Tests.
 -  Continuous build integration including compatibility testing with
    various python, Django and Django-SHOP versions.
@@ -183,8 +185,8 @@ CMS plugin called *Subscriptions Form*, which can be found in the *Shop*
 plugin section. The template rendered for either form can be overridden
 by creating the following templates in your shop app:
 
--  /shop\_subscribe/subscribe-form.html
--  /shop\_subscribe/confirm-form.html
+-  <SHOP_APP_LABEL>/shop\_subscribe/subscribe-form.html
+-  <SHOP_APP_LABEL>/shop\_subscribe/confirm-form.html
 
 These templates will be rendered with ``form`` and ``action`` context
 variables. Here is what the plugin should look like:
