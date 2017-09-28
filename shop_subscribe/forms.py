@@ -56,6 +56,7 @@ class SubscribeForm(NgSuccessMessageMixin, NgModelFormMixin, NgFormValidationMix
     scope_prefix = 'subscribe_data'
     required_css_class = 'djng-field-required'
     success_message = _("Thanks for subscribing!")
+    label_css_classes = ''
 
     class Meta:
         model = CustomerModel

@@ -7,11 +7,17 @@ Introduction
 ------------
 
 This plugin allows Django-SHOP implementations to add email
-subscriptions for their customers. The plugin is currently compatible
-with Django v1.10.7 and
-`Django-SHOP <https://github.com/awesto/django-shop>`__ v0.10.2. This
+subscriptions for their customers.
+
+The module is currently compatible with Django v1.10.7. This
 documentation assumes a working knowledge of Django and
 `Django-SHOP <http://django-shop.readthedocs.io/en/latest/>`__.
+
+Release History
+~~~~~~~~~~~~~~~
+
+- 0.2.x - `Django-SHOP <https://github.com/awesto/django-shop>`__ v0.11.x compatibility
+- 0.1.x - `Django-SHOP <https://github.com/awesto/django-shop>`__ v0.10.2 compatibility
 
 Features
 ~~~~~~~~
