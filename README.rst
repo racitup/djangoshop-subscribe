@@ -42,7 +42,7 @@ This plugin currently has the following features:
 TODO
 ~~~~
 
-Please let us know of you have any feature suggestions, or wish to
+Please let me know of you have any feature suggestions, or wish to
 implement any of the below:
 
 -  Admin interface to allow emails to be authored and sent out to
