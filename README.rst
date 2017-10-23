@@ -38,6 +38,7 @@ This plugin currently has the following features:
    Framework <https://github.com/g13nn/Email-Framework>`__ compatibility
    with the majority of email clients.
 -  Rate limit for subscriptions from each ip address.
+-  Email integration with post_office templates.
 
 TODO
 ~~~~
@@ -47,8 +48,8 @@ implement any of the below:
 
 -  Admin interface to allow emails to be authored and sent out to
    subscribed users.
--  Integrate subscriptions with post_office templates.
 -  Tests.
+-  Remove included email framework.
 -  Continuous build integration including compatibility testing with
    various python, Django and Django-SHOP versions.
 

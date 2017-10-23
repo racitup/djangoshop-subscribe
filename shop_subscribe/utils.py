@@ -14,10 +14,11 @@ from cms.cache.page import get_page_url_cache, set_page_url_cache
 from cms.templatetags.cms_tags import _get_page_by_untyped_arg
 #from cms.utils import get_language_from_request
 from rest_framework.request import Request as DRFRequest
-from bs4 import BeautifulSoup, NavigableString, Tag
 from ipware.ip import get_real_ip, get_ip
 from shop.conf import app_settings
 from shop.models.customer import CustomerModel
+from post_office import mail
+from post_office.models import EmailTemplate
 
 
 # Get an instance of a logger
@@ -37,53 +38,6 @@ def unsign(context):
     ])
     signer.unsign(sep.join( sigcontext.values() ))
     return sigcontext
-
-
-def html_to_text(html):
-    "Creates a formatted text email message as a string from a rendered html template (page)"
-    soup = BeautifulSoup(html, 'html.parser')
-    # Ignore anything in head
-    body, text = soup.body, []
-    for element in body.descendants:
-        # We use type and not isinstance since comments, cdata, etc are subclasses that we don't want
-        if type(element) == NavigableString:
-            parent_tags = (t for t in element.parents if type(t) == Tag)
-            hidden = False
-            for parent_tag in parent_tags:
-                # Ignore any text inside a non-displayed tag
-                # We also behave is if scripting is enabled (noscript is ignored)
-                # The list of non-displayed tags and attributes from the W3C specs:
-                if (parent_tag.name in ('area', 'base', 'basefont', 'datalist', 'head', 'link',
-                                        'meta', 'noembed', 'noframes', 'param', 'rp', 'script',
-                                        'source', 'style', 'template', 'track', 'title', 'noscript') or
-                    parent_tag.has_attr('hidden') or
-                    (parent_tag.name == 'input' and parent_tag.get('type') == 'hidden')):
-                    hidden = True
-                    break
-            if hidden:
-                continue
-
-            # remove any multiple and leading/trailing whitespace
-            string = ' '.join(element.string.split())
-            if string:
-                if element.parent.name == 'a':
-                    a_tag = element.parent
-                    # replace link text with the link
-                    string = a_tag['href']
-                    # concatenate with any non-empty immediately previous string
-                    if (    type(a_tag.previous_sibling) == NavigableString and
-                            a_tag.previous_sibling.string.strip() ):
-                        text[-1] = text[-1] + ' ' + string
-                        continue
-                elif element.previous_sibling and element.previous_sibling.name == 'a':
-                    text[-1] = text[-1] + ' ' + string
-                    continue
-                elif element.parent.name == 'p':
-                    # Add extra paragraph formatting newline
-                    string = '\n' + string
-                text += [string]
-    doc = '\n'.join(text)
-    return doc
 
 
 def get_subscription_fields():
@@ -162,9 +116,36 @@ def unisoformat(datestring):
     "Bit of a hacky way to get the date back from python's isoformat string"
     return datetime(*map(int, re.findall('\d+', datestring)))
 
+
+_et_name = 'Subscription confirmation - customer'
+def get_emailtemplate():
+    """
+    Gets or creates a post_office email template
+    Returns the emailtemplate instance
+    """
+    try:
+        et = EmailTemplate.objects.get(name=_et_name, language='', default_template=None)
+    except EmailTemplate.DoesNotExist:
+        subject = select_template([
+            '{}/shop_subscribe/email/subscription-confirm-subject.txt'.format(app_settings.APP_LABEL),
+            'shop_subscribe/email/subscription-confirm-subject.txt',
+        ])
+        html = select_template([
+            '{}/shop_subscribe/email/subscription-confirm-body.html'.format(app_settings.APP_LABEL),
+            'shop_subscribe/email/subscription-confirm-body.html',
+        ])
+        et = EmailTemplate(
+            name=_et_name,
+            description='Send the customer an email with a link to confirm their subscription',
+            subject=''.join(subject.origin.loader.get_contents(subject.origin).splitlines()).strip(),
+            html_content=html.origin.loader.get_contents(html.origin),
+        )
+        et.save()
+    return et
+
 def send_confirmation_email(request, customer):
     """
-    Uses settings EMAIL_BACKEND to send emails
+    Sends direct to post_office
     Assumes customer will be saved afterward externally
     """
     # check that same IP is not making lots of subscriptions and store IP
@@ -188,22 +169,16 @@ def send_confirmation_email(request, customer):
         'user_agent': request.META['HTTP_USER_AGENT'],
         'language': get_language_from_request(request, check_path=True)
     }
-    subject = select_template([
-        '{}/shop_subscribe/email/subscription-confirm-subject.txt'.format(app_settings.APP_LABEL),
-        'shop_subscribe/email/subscription-confirm-subject.txt',
-    ]).render(context)
-    # Email subject *must not* contain newlines
-    subject = ' '.join(subject.splitlines()).strip()
-    html = select_template([
-        '{}/shop_subscribe/email/subscription-confirm-body.html'.format(app_settings.APP_LABEL),
-        'shop_subscribe/email/subscription-confirm-body.html',
-    ]).render(context)
-    text = html_to_text(html)
-    customer.user.email_user(subject, text, html_message=html)
+
+    mail.send(
+        customer.email,
+        template=get_emailtemplate(),
+        context=context,
+        render_on_delivery=True,
+    )
 
     customer.extra.update({
         'subscription_IP': ip,
         'subscription_date': now.isoformat(),
     })
-    #customer.save(update_fields=["extra"])
     return True

@@ -38,5 +38,6 @@ setup(
     install_requires=[
         'Django>=1.10.0,<1.11',
         'django-shop>=0.11',
+        'django-post-office>3.0.0',
     ],
 )
