@@ -88,13 +88,7 @@ specific configuration for this module, use the module name ``shop_subscribe``.
 
     LOGGING = {
         'version': 1,
-        # Use False to see deprecation warnings, etc
         'disable_existing_loggers': False,
-        'filters': {
-             'require_debug_false': {
-                 '()': 'django.utils.log.RequireDebugFalse',
-             }
-        },
         'formatters': {
             'simple': {
                 'format': '[%(asctime)s %(name)s] %(levelname)s: %(message)s'
@@ -107,12 +101,9 @@ specific configuration for this module, use the module name ``shop_subscribe``.
                 'formatter': 'simple',
             },
         },
-        'loggers': {
-            '': {
-                'handlers': ['console'],
-                # default is WARNING
-                'level': 'INFO',
-            },
+        'root': {
+            'handlers': ['console'],
+            'level': 'INFO',
         },
     }
 
