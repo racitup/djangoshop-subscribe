@@ -107,6 +107,12 @@ specific configuration for this module, use the module name ``shop_subscribe``.
         },
     }
 
+.. topic:: Warning
+
+    The confirmation email sent out to customers uses ``request.build_absolute_uri`` which
+    uses the *X_FORWARDED_HOST* or *HOST* headers to construct the URL. To prevent host header attacks,
+    ensure that *ALLOWED_HOSTS* is restrictive and ensure that your server rejects incorrect header values.
+
 Customer Model
 ~~~~~~~~~~~~~~
 
